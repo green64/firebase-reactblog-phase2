@@ -1,7 +1,7 @@
 //this is a class-based component
 import React, { Component } from "react";
-import Notifications from './Notifications';
-import ProjectList from '../projects/ProjectList';
+import Notifications from "./Notifications";
+import ProjectList from "../projects/ProjectList";
 
 class Dashboard extends Component {
   render() {
