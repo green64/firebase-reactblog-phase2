@@ -1,5 +1,7 @@
 //class-based component created with rce snippets shortcut
 import React, { Component } from "react";
+import { connect } from 'react-redux';
+import { createProject } from '../../store/actions/projectActions';
 
 class CreateProject extends Component {
   state = {
@@ -42,4 +44,11 @@ class CreateProject extends Component {
   }
 }
 
-export default CreateProject;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    createProject: (project) => dispatch(createProject(project))
+  }
+}
+
+//we dont have mapStateToProps, which must be first property, so we use null
+export default connect(null, mapDispatchToProps)(CreateProject)
