@@ -9,8 +9,8 @@ import rootReducer from './store/reducers/rootReducer';
 import { Provider } from 'react-redux';
 import sagaMiddleware from 'redux-saga';
 
-//we can create different reducers to handle dif aspects then combine them
-//this will be the root reducer
+//we can create different reducers to handle dif aspects 
+//then combine them with the root reducer
 
 const store = createStore(rootReducer, applyMiddleware(sagaMiddleware));
 

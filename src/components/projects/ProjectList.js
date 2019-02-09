@@ -5,7 +5,7 @@ import ProjectSummary from './ProjectSummary';
 const ProjectList = ({projects}) => {
   return (
     <div className="project-list section">
-      {/* add projects && in case there aren't projects yet */}
+      {/* add projects && -- start with that in case there aren't projects yet */}
       { projects && projects.map(project => {
        return (
          <ProjectSummary project={project} key={project.id} />

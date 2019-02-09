@@ -24,7 +24,7 @@ class Dashboard extends Component {
     );
   }
 }
-
+//takes in state of store and returns object
 const mapStateToProps = (state) => {
   return {
     projects: state.project.projects
