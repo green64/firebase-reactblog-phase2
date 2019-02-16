@@ -1,7 +1,8 @@
 //class-based component created with rce snippets shortcut
 import React, { Component } from "react";
-import { connect } from 'react-redux';
-import { createProject } from '../../store/actions/projectActions';
+import { connect } from "react-redux";
+import { createProject } from "../../store/actions/projectActions";
+import { Redirect } from 'react-router-dom';
 
 class CreateProject extends Component {
   state = {
@@ -10,27 +11,29 @@ class CreateProject extends Component {
   };
   handleChange = e => {
     this.setState({
-      // prevent default action when user clicks submit
       [e.target.id]: e.target.value
     });
   };
   handleSubmit = e => {
-    e.preventDefault();
-    console.log(this.state);
+    e.preventDefault(); // prevent default action when user clicks submit
+    this.props.createProject(this.state);
+    this.props.history.push("/");
   };
   render() {
+    const { auth } = this.props;
+    if (!auth.uid) return <Redirect to='/signin' /> 
     return (
       <div className="container">
-        <form onSubmit={this.handleSubmit} className="white">
+        <form className="white" onSubmit={this.handleSubmit}>
           <h5 className="grey-text text-darken-3">Create New Project</h5>
           <div className="input-field">
-            <label htmlFor="title">Title</label>
             <input type="text" id="title" onChange={this.handleChange} />
+            <label htmlFor="title">Title</label>
           </div>
           <div className="input-field">
             <label htmlFor="content">Project Content</label>
-            <input
-              type="text"
+            <textarea
+              id="content"
               className="materialize-textarea"
               onChange={this.handleChange}
             />
@@ -43,12 +46,20 @@ class CreateProject extends Component {
     );
   }
 }
-
-const mapDispatchToProps = (dispatch) => {
+const mapStateToProps = (state) => {
   return {
-    createProject: (project) => dispatch(createProject(project))
+    auth: state.firebase.auth
   }
 }
 
+const mapDispatchToProps = dispatch => {
+  return {
+    createProject: project => dispatch(createProject(project))
+  };
+};
+
 //we dont have mapStateToProps, which must be first property, so we use null
-export default connect(null, mapDispatchToProps)(CreateProject)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CreateProject);
