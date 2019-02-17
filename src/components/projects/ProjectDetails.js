@@ -3,10 +3,11 @@ import { connect } from "react-redux"; //connects component to redux state
 import { firestoreConnect } from "react-redux-firebase"; //connect to firestore
 import { compose } from "redux"; //compose connect and firestoreConnect together
 import { Redirect } from 'react-router-dom';
+import moment from "moment";
 
 const ProjectDetails = props => {
   const { project, auth } = props;
-  if (!auth.uid) return <Redirect to='/signin' /> 
+  if (!auth.uid) return <Redirect to='/signin' /> //this is a route guard
 
   if (project) {
     return (
@@ -20,7 +21,7 @@ const ProjectDetails = props => {
             <div>
               Posted by {project.authorFirstName} {project.authorLastName}
             </div>
-            <div>September 2, 2am</div>
+            <div>{moment(project.createdAt.toDate()).calendar()}</div>
           </div>
         </div>
       </div>

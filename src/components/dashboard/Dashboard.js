@@ -5,14 +5,14 @@ import ProjectList from "../projects/ProjectList";
 import { connect } from "react-redux"; // connect Redux with store
 import { firestoreConnect } from "react-redux-firebase"; //binding to react here; use as higher order component
 import { compose } from "redux";
-import { Redirect } from 'react-router-dom';
+import { Redirect } from "react-router-dom";
 
 class Dashboard extends Component {
   render() {
     // console.log(this.props)
     const { projects, auth } = this.props;
     //check UID for login status - if not logged in, redirect so they can't see
-    if (!auth.uid) return <Redirect to='/signin' /> 
+    if (!auth.uid) return <Redirect to="/signin" />;
 
     return (
       <div className="dashboard container">

@@ -1,14 +1,15 @@
 //class-based component created with rce snippets shortcut
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Redirect } from 'react-router-dom';
+import { Redirect } from "react-router-dom";
+import { signUp } from "../../store/actions/authActions";
 
 class SignUp extends Component {
   state = {
-    email: '',
-    password: '',
-    firstName: '',
-    lastName: ''
+    email: "",
+    password: "",
+    firstName: "",
+    lastName: ""
   };
   handleChange = e => {
     this.setState({
@@ -18,11 +19,11 @@ class SignUp extends Component {
   };
   handleSubmit = e => {
     e.preventDefault();
-    console.log(this.state);
+    this.props.signUp(this.state);
   };
   render() {
-    const { auth } = this.props; //destructuring
-    if (auth.uid) return <Redirect to='/' /> //this is a route guard
+    const { auth, authError } = this.props; //destructuring
+    if (auth.uid) return <Redirect to="/" />; //this is a route guard
     return (
       <div className="container">
         <form onSubmit={this.handleSubmit} className="white">
@@ -45,6 +46,9 @@ class SignUp extends Component {
           </div>
           <div className="input-field">
             <button className="btn yellow darken-2 z-depth-0">Sign Up</button>
+            <div className="red-text center">
+              {authError ? <p>{authError}</p> : null}
+            </div>
           </div>
         </form>
       </div>
@@ -52,10 +56,20 @@ class SignUp extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
-    auth: state.firebase.auth
-  }
-}
+    auth: state.firebase.auth,
+    authError: state.auth.authError
+  };
+};
 
-export default connect(null, mapStateToProps)(SignUp);
+const mapDispatchToProps = dispatch => {
+  return {
+    signUp: newUser => dispatch(signUp(newUser))
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SignUp);
